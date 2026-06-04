@@ -6,6 +6,7 @@ from psycopg_pool import ConnectionPool
 from database import CONNECTION_STRING_LOCAL_POSTGRES
 from utils.check_version import check_version_of_settings
 from utils.get_all_settings import all_settings_to_machine
+from utils.get_settings_for_folder import get_rules_by_watching_path
 
 pools = {}
 
@@ -39,9 +40,16 @@ def get_version(comp_name: str, conn: psycopg.Connection = Depends(get_db)):
     
     return final
 
-@app.get('/collector/get-settings/')
+@app.get("/collector/get-settings/")
 def get_version(comp_name: str, conn: psycopg.Connection = Depends(get_db)):
     with conn.cursor() as cur:
         result = all_settings_to_machine(cur, comp_name)
-    
+
+    return result
+
+@app.get("/collector/rules-by-path/")
+def get_rules_by_path(watching_path: str, conn: psycopg.Connection = Depends(get_db)):
+    with conn.cursor() as cur:
+        result = get_rules_by_watching_path(cur, watching_path)
+
     return result
