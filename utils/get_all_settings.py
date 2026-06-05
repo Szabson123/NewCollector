@@ -2,7 +2,7 @@ def all_settings_to_machine(cur, comp_name):
     query = """
         SELECT 
             c.id AS comp_id, c.name AS comp_name, c.version_of_collectors,
-            srv.id AS srv_id, srv.ip AS srv_ip, srv.user AS srv_user, srv.password AS srv_password,  -- Dodane hasło
+            srv.id AS srv_id, srv.ip AS srv_ip, srv.user AS srv_user, srv.password AS srv_password, srv.basic_path AS srv_basic_path, -- <-- Added comma here
             s.id AS set_id, s.watching_path, s.folder_in_server_name, s.slow_mode,
             r.id AS rule_id, r.path AS rule_path, r.rule AS rule_value, r.folder_name AS rule_folder, r.copy_file_force
         FROM public.datacollector_collectorcomputer c
@@ -37,6 +37,7 @@ def all_settings_to_machine(cur, comp_name):
                     "ip": row["srv_ip"],
                     "user": row["srv_user"],
                     "password": row["srv_password"],
+                    "basic_path": row["srv_basic_path"]
                 }
 
             computers_dict[c_id] = {

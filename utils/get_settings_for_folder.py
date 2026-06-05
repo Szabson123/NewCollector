@@ -2,7 +2,7 @@ def get_rules_by_watching_path(cur, watching_path):
     query = """
         SELECT 
             s.id AS set_id, s.watching_path, s.folder_in_server_name, s.slow_mode, s.collector_computer_id,
-            srv.id AS srv_id, srv.ip AS srv_ip, srv.user AS srv_user, srv.password AS srv_password,
+            srv.id AS srv_id, srv.ip AS srv_ip, srv.user AS srv_user, srv.password AS srv_password, srv.basic_path AS srv_basic_path,
             r.id AS rule_id, r.path AS rule_path, r.rule AS rule_value, r.folder_name AS rule_folder, r.copy_file_force
         FROM public.datacollector_collectorcomputersettings s
         JOIN public.datacollector_collectorcomputer c 
@@ -36,6 +36,7 @@ def get_rules_by_watching_path(cur, watching_path):
                     "ip": row["srv_ip"],
                     "user": row["srv_user"],
                     "password": row["srv_password"],
+                    "basic_path": row["srv_basic_path"],
                 }
 
             settings_dict[s_id] = {
