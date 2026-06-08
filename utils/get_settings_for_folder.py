@@ -1,4 +1,4 @@
-def get_rules_by_watching_path(cur, watching_path):
+def get_rules_by_watching_path(cur, watching_path, comp_name):
     query = """
         SELECT 
             s.id AS set_id, s.watching_path, s.folder_in_server_name, s.slow_mode, s.collector_computer_id,
@@ -11,10 +11,11 @@ def get_rules_by_watching_path(cur, watching_path):
           ON c.server_id = srv.id
         LEFT JOIN public.datacollector_collectorrulesettings r 
           ON r.collector_computer_settings_id = s.id
-        WHERE s.watching_path = %s
+        WHERE s.watching_path = %s AND c.name = %s
     """
 
-    cur.execute(query, (watching_path,))
+    # Przekazujemy oba parametry do kwerendy
+    cur.execute(query, (watching_path, comp_name))
     results = cur.fetchall()
 
     if not results:

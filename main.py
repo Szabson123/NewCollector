@@ -48,8 +48,8 @@ def get_version(comp_name: str, conn: psycopg.Connection = Depends(get_db)):
     return result
 
 @app.get("/collector/rules-by-path/")
-def get_rules_by_path(watching_path: str, conn: psycopg.Connection = Depends(get_db)):
+def get_rules_by_path(watching_path: str, comp_name: str, conn: psycopg.Connection = Depends(get_db)):
     with conn.cursor() as cur:
-        result = get_rules_by_watching_path(cur, watching_path)
+        result = get_rules_by_watching_path(cur, watching_path, comp_name)
 
     return result
